@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MeMe_2.0</string>
+    <string name="app_name">MeMe</string>
+    <string name="hello_blank_fragment">o hello</string>
+    <string name="ip" translatable="false">http://192.168.1.8:3001/</string>
 </resources>
