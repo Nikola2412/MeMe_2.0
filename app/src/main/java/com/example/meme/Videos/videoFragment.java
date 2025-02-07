@@ -1,4 +1,4 @@
-package com.example.meme;
+package com.example.meme.Videos;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.meme.R;
 import com.example.meme.placeholder.PlaceholderContent;
 
 /**

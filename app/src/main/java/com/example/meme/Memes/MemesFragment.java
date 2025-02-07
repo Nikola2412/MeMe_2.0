@@ -9,6 +9,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,17 @@ public class MemesFragment extends Fragment implements MemesInterface {
         md.notifyItemInserted(memes.size() - 1);
         memes.add(new Meme("773e2429-17ec-4c54-8c52-96847ccfa84c","1","Nikola_24"));
         md.notifyItemInserted(memes.size() - 1);
+
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swiper);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            Toast.makeText(getContext(),"refreshed",Toast.LENGTH_LONG).show();
+            int k = memes.size();
+            memes.clear();
+            md.notifyItemRangeRemoved(0,k);
+            memes.add(new Meme("25995ffe-9480-4de1-8192-e1e912451906","1","Nikola_24"));
+            md.notifyItemInserted(memes.size() - 1);
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
     }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.meme.Memes.MemesFragment;
+import com.example.meme.Videos.videoFragment;
 
 public class mainVewPagerAdapter extends FragmentStateAdapter {
     public mainVewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {

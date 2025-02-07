@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.meme.R;
+import com.example.meme.databinding.MemeItemBinding;
 import com.example.meme.objects.Meme;
 
 import java.util.ArrayList;
@@ -40,15 +41,15 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
     public MemeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.meme_item,parent,false);
 
-        return new MemeViewHolder(v, memesInterface);
+        return new MemeViewHolder(MemeItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false) , memesInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MemeViewHolder holder, int position) {
         Meme meme = memeArrayList.get(position);
+        holder.curent = meme;
         holder.setMeme(meme.id);
-        holder.setMeme(meme);
-        ViewCompat.setTransitionName(holder.meme, meme.id);
+        ViewCompat.setTransitionName(holder.binding.mim, meme.id);
     }
 
     @Override
@@ -57,36 +58,35 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
     }
 
     public static class MemeViewHolder extends RecyclerView.ViewHolder {
-        Meme curent;
-        ImageView meme;
-        View view;
+        public Meme curent;
+        public MemeItemBinding binding;
 
         //String path;
 
         String ip = context.getString(R.string.ip);
         public void setMeme(String path) {
             //this.path = path;
-            meme = view.findViewById(R.id.mim);
-            Glide.with(context).load(ip+"id_memea=" + path)
+            Glide.with(context).load(context.getString(R.string.slika))
                     .error(R.drawable.baseline_running_with_errors_24)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(meme);
-            Toast.makeText(context,ip + "id_memea=" + path,Toast.LENGTH_LONG).show();
-            //Glide.with(context).load().diskCacheStrategy(DiskCacheStrategy.NONE).into(meme);
+                    .skipMemoryCache(true)
+                    .into(binding.mim);
         }
         public void setMeme(Meme meme){
             this.curent = meme;
         }
 
 
-        public MemeViewHolder(@NonNull View itemView, MemesInterface recycleViewInterface) {
-            super(itemView);
-            view = itemView;
+        public MemeViewHolder(@NonNull MemeItemBinding binding, MemesInterface recycleViewInterface) {
+            super(binding.getRoot());
+            this.binding = binding;
+
+            View view = binding.getRoot();
             view.setOnClickListener(v -> {
                 if(recycleViewInterface !=null){
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION)
-                        recycleViewInterface.openImageTransition(curent,meme);
+                        recycleViewInterface.openImageTransition(curent, binding.mim);
                 }
             });
             view.setOnLongClickListener(v -> {
