@@ -72,7 +72,8 @@ public class FullMeMe extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
-                finish();
+                onBackPressed();
+                //finish();
             }
         });
         findViewById(R.id.back_buttom).setOnClickListener(new View.OnClickListener() {

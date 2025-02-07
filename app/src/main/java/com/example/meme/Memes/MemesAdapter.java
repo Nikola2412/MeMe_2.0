@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
@@ -39,7 +37,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
     @NonNull
     @Override
     public MemeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.meme_item,parent,false);
+        //View v = LayoutInflater.from(context).inflate(R.layout.meme_item,parent,false);
 
         return new MemeViewHolder(MemeItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false) , memesInterface);
     }
