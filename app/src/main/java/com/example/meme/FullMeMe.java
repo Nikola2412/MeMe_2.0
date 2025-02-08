@@ -3,13 +3,12 @@ package com.example.meme;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.ScaleGestureDetector;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -44,66 +43,43 @@ public class FullMeMe extends AppCompatActivity {
         postponeEnterTransition();
 
         meme = findViewById(R.id.view_meme);
-        TextView kanal = findViewById(R.id.naziv_kanala);
+        TextView canalName = findViewById(R.id.naziv_kanala);
 
         Bundle extras = getIntent().getExtras();
         meme_data  = extras.getParcelable("meme");
-        kanal.setText(meme_data.naziv_kanala);
+        canalName.setText(meme_data.getCanalName());
 
-        Glide.with(this).load(getString(R.string.ip) + "id_memea=" + meme_data.id).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+        Glide.with(this).load(getString(R.string.ip) + "id_memea=" + meme_data.getMemeID()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                 .listener(new RequestListener<Drawable>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        onBackPressed();
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
+                        getOnBackPressedDispatcher().onBackPressed();
                         Toast.makeText(getApplicationContext(),"ERROR",Toast.LENGTH_LONG).show();
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public boolean onResourceReady(@NonNull Drawable resource, @NonNull Object model, Target<Drawable> target, @NonNull DataSource dataSource, boolean isFirstResource) {
                         startPostponedEnterTransition();
                         return false;
                     }
                 }).into(this.meme);
 
         //scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-        findViewById(R.id.opis).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                onBackPressed();
-                //finish();
-            }
+        findViewById(R.id.opis).setOnClickListener(view -> {
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            getOnBackPressedDispatcher().onBackPressed();
+            //finish();
         });
-        findViewById(R.id.back_buttom).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
-                onBackPressed();
-            }
-        });
-        findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String linkToShare = getString(R.string.ip) + "meme=" + meme_data.id;
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, linkToShare);
-                startActivity(Intent.createChooser(shareIntent, "Share link via"));
-            }
+        findViewById(R.id.back_buttom).setOnClickListener(view -> getOnBackPressedDispatcher().onBackPressed());
+        findViewById(R.id.share).setOnClickListener(v -> {
+            String linkToShare = getString(R.string.ip) + "meme=" + meme_data.getMemeID();
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, linkToShare);
+            startActivity(Intent.createChooser(shareIntent, "Share link via"));
         });
 
-    }
-
-    public void place_meme(String ip){
-        //malo useless
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 }

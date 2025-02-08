@@ -5,5 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.MeMe_20" parent="Base.Theme.MeMe_20" />
+    <style name="Theme.MeMe_20" parent="Base.Theme.MeMe_20" >
+        <item name="android:windowContentTransitions">true</item>
+    </style>
 </resources>

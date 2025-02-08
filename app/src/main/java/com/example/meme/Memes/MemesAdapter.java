@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
@@ -22,18 +21,16 @@ import java.util.ArrayList;
 public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHolder> {
 
     private final MemesInterface memesInterface;
-    static Context context;
+    public Context context;
     ArrayList<Meme> memeArrayList;
 
-    public void setMemeArrayList(ArrayList<Meme> memeArrayList) {
-        this.memeArrayList = memeArrayList;
-    }
 
     public MemesAdapter(Context context, ArrayList<Meme> memes, MemesInterface memesInterface){
         this.context = context;
         this.memeArrayList = memes;
         this.memesInterface = memesInterface;
     }
+
 
     @NonNull
     @Override
@@ -47,8 +44,8 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
     public void onBindViewHolder(@NonNull MemeViewHolder holder, int position) {
         Meme meme = memeArrayList.get(position);
         holder.curent = meme;
-        holder.setMeme(meme.id);
-        ViewCompat.setTransitionName(holder.binding.mim, meme.id);
+        holder.setMeme(meme.getMemeID());
+        ViewCompat.setTransitionName(holder.binding.mim, meme.getMemeID());
     }
 
     @Override
@@ -56,7 +53,7 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
         return memeArrayList.size();
     }
 
-    public static class MemeViewHolder extends RecyclerView.ViewHolder {
+    public class MemeViewHolder extends RecyclerView.ViewHolder {
         public Meme curent;
         public MemeItemBinding binding;
 
@@ -84,13 +81,13 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
             View view = binding.getRoot();
             view.setOnClickListener(v -> {
                 if(recycleViewInterface !=null){
-                    int pos = getAdapterPosition();
+                    int pos = getAbsoluteAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION)
                         recycleViewInterface.openImageTransition(curent, binding.mim);
                 }
             });
             view.setOnLongClickListener(v -> {
-                String linkToShare = ip + "meme=" + curent.id;
+                String linkToShare = ip + "meme=" + curent.getMemeID();
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, linkToShare);

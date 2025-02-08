@@ -6,22 +6,29 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Meme implements Parcelable {
-    public String id;
-    public String id_kanala;
+    private final String memeID;
 
-    public String naziv_kanala;
+    private final String canalID;
+    private final String canalName;
 
+    public String getMemeID() {
+        return memeID;
+    }
 
-    public Meme(String id, String id_kanala, String naziv_kanala) {
-        this.id = id;
-        this.id_kanala = id_kanala;
-        this.naziv_kanala = naziv_kanala;
+    public String getCanalName() {
+        return canalName;
+    }
+    
+    public Meme(String memeID, String canalID, String canalName) {
+        this.memeID = memeID;
+        this.canalID = canalID;
+        this.canalName = canalName;
     }
 
     protected Meme(Parcel in) {
-        id = in.readString();
-        id_kanala = in.readString();
-        naziv_kanala = in.readString();
+        memeID = in.readString();
+        canalID = in.readString();
+        canalName = in.readString();
     }
 
     public static final Creator<Meme> CREATOR = new Creator<Meme>() {
@@ -43,8 +50,8 @@ public class Meme implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(id_kanala);
-        dest.writeString(naziv_kanala);
+        dest.writeString(memeID);
+        dest.writeString(canalID);
+        dest.writeString(canalName);
     }
 }

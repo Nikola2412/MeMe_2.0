@@ -31,8 +31,9 @@
             android:contentDescription="@string/nesto"
             android:scrollbars="none"
             android:clipToPadding="false"
-            app:layoutManager="LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/meme_item"
+            app:spanCount="2"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
