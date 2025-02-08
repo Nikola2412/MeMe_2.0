@@ -37,7 +37,7 @@ public class FullMeMe extends AppCompatActivity {
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
         supportPostponeEnterTransition();
@@ -50,7 +50,7 @@ public class FullMeMe extends AppCompatActivity {
         meme_data  = extras.getParcelable("meme");
         kanal.setText(meme_data.naziv_kanala);
 
-        Glide.with(this).load(getString(R.string.slika)).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+        Glide.with(this).load(getString(R.string.ip) + "id_memea=" + meme_data.id).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

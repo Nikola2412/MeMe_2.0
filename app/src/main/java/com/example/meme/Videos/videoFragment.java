@@ -32,8 +32,6 @@ public class videoFragment extends Fragment {
     public videoFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static videoFragment newInstance(int columnCount) {
         videoFragment fragment = new videoFragment();
         Bundle args = new Bundle();

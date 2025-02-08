@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
@@ -64,11 +65,12 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
         String ip = context.getString(R.string.ip);
         public void setMeme(String path) {
             //this.path = path;
-            Glide.with(context).load(context.getString(R.string.slika))
+            Glide.with(context).load(ip + "id_memea=" + path)
                     .error(R.drawable.baseline_running_with_errors_24)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.mim);
+            //Toast.makeText(context,ip + "id_memea=" + path,Toast.LENGTH_LONG).show();
         }
         public void setMeme(Meme meme){
             this.curent = meme;

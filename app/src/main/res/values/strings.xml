@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MeMe</string>
-    <string name="hello_blank_fragment">o hello</string>
-    <string name="ip" translatable="false">http://192.168.1.8:3001/</string>
+    <string name="hello_blank_fragment">o hello my dear friend</string>
+    <string name="ip" translatable="false">http://192.168.1.5:3001/</string>
     <string name="slika" translatable="false">https://goo.gl/gEgYUd</string>
-    <string name="nesto">nesto nesto</string>
+    <string name="nesto">what can i say</string>
 </resources>
