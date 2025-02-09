@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MeMe</string>
+    <string name="app_name">MeMe2.0</string>
     <string name="hello_blank_fragment">o hello my dear friend</string>
     <string name="ip" translatable="false">http://192.168.1.5:3001/</string>
     <string name="slika" translatable="false">https://goo.gl/gEgYUd</string>

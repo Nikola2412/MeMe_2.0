@@ -1,7 +1,5 @@
 package com.example.meme.Memes;
 
-import static android.app.Activity.RESULT_CANCELED;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,21 +8,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.meme.FullMeMe;
 import com.example.meme.databinding.FragmentMemeBinding;
@@ -38,7 +30,9 @@ public class MemesFragment extends Fragment implements MemesInterface {
     private ArrayList<Meme> memes;
 
 
-    //private MemesViewModel viewModel;
+    private MemesRecyclerViewState recyclerViewState;
+
+
     private RecyclerView recyclerView;
     private MemesAdapter adapter;
 
@@ -57,35 +51,30 @@ public class MemesFragment extends Fragment implements MemesInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.memes, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        //viewModel = new ViewModelProvider(requireActivity()).get(MemesViewModel.class);
-
+        if (savedInstanceState != null) {
+            recyclerViewState = savedInstanceState.getParcelable("recycler_state");
+        }
+        memes = new ArrayList<>();
         recyclerView = binding.memes;
-        //SnapHelper snapHelper = new LinearSnapHelper();
-        //snapHelper.attachToRecyclerView(recyclerView);
-
-        //if(viewModel.getMemeList() == null || viewModel.getMemeList().isEmpty())
-        loadData();
-
 
         adapter = new MemesAdapter(getContext(), memes, this);
         recyclerView.setAdapter(adapter);
 
-        adapter.notifyItemRangeInserted(0, memes.size());
+        if (recyclerViewState != null) {
+            memes = recyclerViewState.getMemes();
+            adapter.setMemeArrayList(memes);
+        } else {
+            loadData();
+        }
+
+        adapter.notifyDataSetChanged();
 
 
         SwipeRefreshLayout swipeRefreshLayout = binding.swiper;
         swipeRefreshLayout.setOnRefreshListener(() -> {
             //Toast.makeText(getContext(), "refreshed", Toast.LENGTH_LONG).show();
-            int k = memes.size();
             memes.clear();
-            adapter.notifyItemRangeRemoved(0, k);
+            adapter.notifyDataSetChanged();
             memes.add(new Meme("25995ffe-9480-4de1-8192-e1e912451906", "1", "Nikola 24"));
             memes.add(new Meme("5cac1756-f8c9-438f-96d5-fabe120c4626", "1", "Nikola 24"));
             memes.add(new Meme("692b5cac-fb02-47d0-a24f-ec6075fc2c91", "1", "Nikola 24"));
@@ -98,14 +87,13 @@ public class MemesFragment extends Fragment implements MemesInterface {
             memes.add(new Meme("11e20a00-8d82-4581-9bc8-b661c7d418cb", "1", "Nikola 24"));
             memes.add(new Meme("3a65ba6f-2b3a-4a3c-8e57-ba220a7dc8d6", "1", "Nikola 24"));
             memes.add(new Meme("c2eb1976-5aec-47bf-91b4-c99f4c5080e5", "1", "Nikola 24"));
-            //viewModel.setMemeList(memes);
-            adapter.notifyItemRangeInserted(0,memes.size());
+            recyclerViewState = new MemesRecyclerViewState(memes);
+            adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
         });
 
     }
     private void loadData() {
-        memes = new ArrayList<>();
         memes.add(new Meme("25995ffe-9480-4de1-8192-e1e912451906", "1", "Nikola 24"));
         memes.add(new Meme("5cac1756-f8c9-438f-96d5-fabe120c4626", "1", "Nikola 24"));
         memes.add(new Meme("692b5cac-fb02-47d0-a24f-ec6075fc2c91", "1", "Nikola 24"));
@@ -126,8 +114,11 @@ public class MemesFragment extends Fragment implements MemesInterface {
         memes.add(new Meme("8c3c4f61-f0c5-40d0-b9ca-2c61e3cd624b", "1", "Nikola 24"));
         memes.add(new Meme("c914efe0-71c6-44ca-bebe-781d53b56900", "1", "Nikola 24"));
         memes.add(new Meme("9bae790b-2273-4e64-8f42-09a11e2ae9dd", "1", "Nikola 24"));
-        //viewModel.setMemeList(memes); // Set the loaded data in the ViewModel
+        recyclerViewState = new MemesRecyclerViewState(memes);
+
     }
+    private static final int REQUEST_CODE_FULL_MEME = 1;
+
 
     @Override
     public void openImageTransition(Meme meme, ImageView sharedMeme) {
@@ -135,31 +126,37 @@ public class MemesFragment extends Fragment implements MemesInterface {
         intent.putExtra("meme", meme);
 
 
-        //Pair<View, String> p1 = Pair.create(sharedMeme, "image");
-        Pair<View, String> p1 = Pair.create(sharedMeme, ViewCompat.getTransitionName(sharedMeme));
+        Pair<View, String> p1 = Pair.create(sharedMeme, "image");
+        //Pair<View, String> p1 = Pair.create(sharedMeme, ViewCompat.getTransitionName(sharedMeme));
 
-        //noinspection unchecked
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                requireActivity(),p1);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation
+                (getActivity(),p1);
+        startPostponedEnterTransition();
 
-        //startActivityForResult(intent, REQUEST_CODE_FULL_MEME, optionsCompat.toBundle());
-        someActivityResultLauncher.launch(intent,optionsCompat);
+        startActivityForResult(intent, REQUEST_CODE_FULL_MEME, optionsCompat.toBundle());
+        //someActivityResultLauncher.launch(intent,optionsCompat);
     }
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {
-        /*
-        if(o.getResultCode() == RESULT_CANCELED) {
-            Toast.makeText(getContext(),"test",Toast.LENGTH_SHORT).show();
-        }
 
-         */
     });
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_FULL_MEME) {
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("recycler_state", recyclerViewState);
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        recyclerView.setAdapter(null);
-        recyclerView = null;
-        adapter = null;
     }
 }

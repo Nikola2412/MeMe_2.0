@@ -65,7 +65,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideoViewH
             View view = binding.getRoot();
             view.setOnClickListener(v -> {
                 if(recycleViewInterface !=null){
-                    int pos = getAbsoluteAdapterPosition();
+                    int pos = getPosition();
                     if(pos != RecyclerView.NO_POSITION)
                         recycleViewInterface.startVideo(pos);
                 }

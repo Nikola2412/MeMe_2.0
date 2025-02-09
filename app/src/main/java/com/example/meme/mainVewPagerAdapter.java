@@ -34,7 +34,7 @@ public class mainVewPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new MemesFragment();
             default:
-                return null;
+                throw new IllegalStateException("Invalid position");
         }
     }
 
