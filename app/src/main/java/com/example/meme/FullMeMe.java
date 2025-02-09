@@ -49,6 +49,8 @@ public class FullMeMe extends AppCompatActivity {
         meme_data  = extras.getParcelable("meme");
         canalName.setText(meme_data.getCanalName());
 
+        ViewCompat.setTransitionName(meme, meme_data.getMemeID());
+
         Glide.with(this).load(getString(R.string.ip) + "id_memea=" + meme_data.getMemeID()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -80,6 +82,5 @@ public class FullMeMe extends AppCompatActivity {
             shareIntent.putExtra(Intent.EXTRA_TEXT, linkToShare);
             startActivity(Intent.createChooser(shareIntent, "Share link via"));
         });
-
     }
 }

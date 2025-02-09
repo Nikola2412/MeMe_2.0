@@ -19,7 +19,6 @@
         <activity
             android:name=".FullMeMe"
             android:exported="false"
-            android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
             />
         <activity
