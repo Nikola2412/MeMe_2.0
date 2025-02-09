@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +23,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.meme.databinding.ActivityFullMeMeBinding;
 import com.example.meme.objects.Meme;
 
 public class FullMeMe extends AppCompatActivity {
@@ -35,10 +35,12 @@ public class FullMeMe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_me_me);
+        ActivityFullMeMeBinding binding = ActivityFullMeMeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
 
         EdgeToEdge.enable(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
@@ -47,37 +49,40 @@ public class FullMeMe extends AppCompatActivity {
         supportPostponeEnterTransition();
         postponeEnterTransition();
 
-        meme = findViewById(R.id.view_meme);
-        TextView kanal = findViewById(R.id.naziv_kanala);
+        meme = binding.viewMeme;
+        TextView canalName = binding.canalName;
 
         Bundle extras = getIntent().getExtras();
         meme_data  = extras.getParcelable("meme");
-        kanal.setText(meme_data.getCanalName());
+        canalName.setText(meme_data.getCanalName());
+
+        ViewCompat.setTransitionName(meme,meme_data.getMemeID());
 
         Glide.with(this).load(getString(R.string.ip) + "id_memea=" + meme_data.getMemeID()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                 .listener(new RequestListener<Drawable>() {
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public boolean onResourceReady(@NonNull Drawable resource, @NonNull Object model, Target<Drawable> target, @NonNull DataSource dataSource, boolean isFirstResource) {
                         startPostponedEnterTransition();
                         return false;
                     }
                 }).into(this.meme);
 
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-        findViewById(R.id.opis).setOnClickListener(view -> {
+        binding.footer.setOnClickListener(view -> {
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
-            finish();
+            getOnBackPressedDispatcher().onBackPressed();
+            //finish();
         });
-        findViewById(R.id.back_buttom).setOnClickListener(view -> {
+        findViewById(R.id.backButton).setOnClickListener(view -> {
             Intent intent = new Intent();
             setResult(RESULT_CANCELED, intent);
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
         });
         findViewById(R.id.share).setOnClickListener(v -> {
             String linkToShare = getString(R.string.ip) + "meme=" + meme_data.getMemeID();
@@ -92,12 +97,6 @@ public class FullMeMe extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        supportFinishAfterTransition(); // Initiates reverse shared element transition
     }
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
