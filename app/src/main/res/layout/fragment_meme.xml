@@ -31,7 +31,7 @@
             android:contentDescription="@string/nesto"
             android:scrollbars="none"
             android:clipToPadding="false"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/meme_item"
             app:spanCount="2"
             />

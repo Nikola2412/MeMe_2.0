@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHolder> {
 
     private final MemesInterface memesInterface;
-    public Context context;
+    Context context;
     ArrayList<Meme> memeArrayList;
 
 
@@ -29,6 +29,12 @@ public class MemesAdapter extends RecyclerView.Adapter<MemesAdapter.MemeViewHold
         this.context = context;
         this.memeArrayList = memes;
         this.memesInterface = memesInterface;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return memeArrayList.get(position).getMemeID().hashCode(); // Ensure unique stable IDs
     }
 
 
