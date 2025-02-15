@@ -4,12 +4,15 @@
     >
 
     <item
+        android:icon="@drawable/baseline_photo_library_24"
         android:id="@+id/memesFragment"
         android:title="@string/memes" />
     <item
+        android:icon="@drawable/baseline_home_24"
         android:id="@+id/videosFragment"
         android:title="@string/home" />
     <item
+        android:icon="@drawable/baseline_share_24"
         android:id="@+id/uploadsFragment"
         android:title="@string/upload"/>
 </menu>

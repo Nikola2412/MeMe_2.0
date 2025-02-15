@@ -1,7 +1,6 @@
 package com.example.meme;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private int currentItemId = 0;
-
+    private BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mainVewPagerAdapter adapter = new mainVewPagerAdapter(this.getSupportFragmentManager(),getLifecycle());
         viewPager.setAdapter(adapter);
 
-        BottomNavigationView navView = findViewById(R.id.navView);
+        navView = binding.navView;
 
         navView.setOnItemSelectedListener(item -> {
 
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(1);
             } else if (itemId == R.id.uploadsFragment) {
                 viewPager.setCurrentItem(2);
+                hideBottomNav();
             } else {
                 return false;
             }
@@ -68,9 +68,20 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 navView.getMenu().getItem(position).setChecked(true);
+                if(position==2) hideBottomNav();
             }
         });
 
+        viewPager.setCurrentItem(1,false);
+        currentItemId = R.id.videosFragment;
+
+    }
+    private void hideBottomNav() {
+        navView.animate().translationY(navView.getHeight()).setDuration(200).start();
+    }
+
+    private void showBottomNav() {
+        navView.animate().translationY(0).setDuration(200).start();
     }
 
     @Override

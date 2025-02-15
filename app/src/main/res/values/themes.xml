@@ -8,5 +8,13 @@
     <style name="Theme.MeMe_20" parent="Base.Theme.MeMe_20" >
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowActionBar">false</item>
+
+        <item name="bottomSheetStyle">@style/Theme.MeMe_20.BottomSheet</item>
     </style>
+    <style name="Theme.MeMe_20.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>
