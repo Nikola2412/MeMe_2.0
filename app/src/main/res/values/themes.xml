@@ -3,6 +3,7 @@
     <style name="Base.Theme.MeMe_20" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Theme.MeMe_20" parent="Base.Theme.MeMe_20" >
@@ -10,11 +11,32 @@
         <item name="android:windowActionBar">false</item>
 
         <item name="bottomSheetStyle">@style/Theme.MeMe_20.BottomSheet</item>
+        <item name="bottomSheetDragHandleStyle">@style/Theme.MeMe_20.BottomSheetHandle</item>
     </style>
-    <style name="Theme.MeMe_20.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+
+    <style name="Theme.MeMe_20.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+    </style>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+    <style name="Theme.MeMe_20.BottomSheetHandle" parent="Widget.Material3.BottomSheet.DragHandle">
+        <item name="tint">?colorOnSurface</item>
+        <!--Alpha can be added optionally to achieve nice color blend-->
+        <item name="android:alpha">0.3</item>
     </style>
 
 </resources>

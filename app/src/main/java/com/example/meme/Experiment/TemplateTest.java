@@ -1,4 +1,4 @@
-package com.example.meme.Upload;
+package com.example.meme.Experiment;
 
 public interface TemplateTest {
     void f(String a);

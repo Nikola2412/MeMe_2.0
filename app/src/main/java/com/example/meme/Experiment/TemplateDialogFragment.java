@@ -1,10 +1,12 @@
-package com.example.meme.Upload;
+package com.example.meme.Experiment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.meme.R;
 import com.example.meme.databinding.FragmentGalleryDialogListDialogBinding;
 import com.example.meme.databinding.FragmentGalleryDialogListDialogItemBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -17,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class TemplateDialogFragment extends BottomSheetDialogFragment{
+public class TemplateDialogFragment extends BottomSheetDialogFragment {
 
     private static final String ARG_ITEM_COUNT = "item_count";
     private FragmentGalleryDialogListDialogBinding binding;
@@ -25,6 +27,12 @@ public class TemplateDialogFragment extends BottomSheetDialogFragment{
 
     public TemplateDialogFragment(TemplateTest templateTest) {
         this.templateTest = templateTest;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        return super.onCreateDialog(savedInstanceState);
     }
 
     @Nullable
@@ -39,7 +47,9 @@ public class TemplateDialogFragment extends BottomSheetDialogFragment{
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        final RecyclerView recyclerView = (RecyclerView) view;
+        super.onViewCreated(view, savedInstanceState);
+
+        final RecyclerView recyclerView = binding.list;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(new MemeVideoAdapter(getArguments().getInt(ARG_ITEM_COUNT),templateTest));
     }
@@ -96,5 +106,10 @@ public class TemplateDialogFragment extends BottomSheetDialogFragment{
             return mItemCount;
         }
 
+    }
+
+    @Override
+    public int getTheme() {
+        return R.style.Theme_MeMe_20_BottomSheet;
     }
 }
