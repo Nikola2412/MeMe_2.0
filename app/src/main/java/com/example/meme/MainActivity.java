@@ -1,23 +1,23 @@
 package com.example.meme;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.navigation.NavController;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.meme.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public NavController navController;
     private ActivityMainBinding binding;
+    private int currentItemId = 0;
 
 
     @Override
@@ -36,8 +36,40 @@ public class MainActivity extends AppCompatActivity {
         ViewPager2 viewPager = binding.ViewPager;
         mainVewPagerAdapter adapter = new mainVewPagerAdapter(this.getSupportFragmentManager(),getLifecycle());
         viewPager.setAdapter(adapter);
-        //viewPager.setCurrentItem(1,false);
 
+        BottomNavigationView navView = findViewById(R.id.navView);
+
+        navView.setOnItemSelectedListener(item -> {
+
+            int itemId = item.getItemId();
+            //String itemName = (String) item.getTitle();
+
+            if (itemId == currentItemId) {
+                return false;
+            }
+
+            //Toast.makeText(this,Integer.toString(itemId) + " " + Integer.toString(currentItemId),Toast.LENGTH_SHORT).show();
+
+            if (itemId == R.id.memesFragment) {
+                viewPager.setCurrentItem(0);
+            } else if (itemId == R.id.videosFragment) {
+                viewPager.setCurrentItem(1);
+            } else if (itemId == R.id.uploadsFragment) {
+                viewPager.setCurrentItem(2);
+            } else {
+                return false;
+            }
+            currentItemId = itemId;
+            return true;
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                navView.getMenu().getItem(position).setChecked(true);
+            }
+        });
 
     }
 

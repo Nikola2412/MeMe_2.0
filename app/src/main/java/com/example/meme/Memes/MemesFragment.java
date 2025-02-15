@@ -7,9 +7,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.util.Pair;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,8 +21,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.meme.FullMeMe;
+import com.example.meme.MainActivity;
 import com.example.meme.databinding.FragmentMemeBinding;
 import com.example.meme.objects.Meme;
 
@@ -48,6 +53,12 @@ public class MemesFragment extends Fragment implements MemesInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.memes, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         memes = new ArrayList<>();
         recyclerView = binding.memes;
 

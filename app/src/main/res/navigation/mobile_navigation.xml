@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/videosFragment">
+
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="com.example.meme.Videos.VideosFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_video" />
+    <fragment
+        android:id="@+id/memesFragment"
+        android:name="com.example.meme.Memes.MemesFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_meme" />
+    <fragment
+        android:id="@+id/uploadsFragment"
+        android:name="com.example.meme.Upload.UploadsFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_upload" />
+</navigation>

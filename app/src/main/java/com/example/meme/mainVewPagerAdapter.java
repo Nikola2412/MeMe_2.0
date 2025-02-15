@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.meme.Memes.MemesFragment;
+import com.example.meme.Upload.UploadsFragment;
 import com.example.meme.Videos.VideosFragment;
 
 public class mainVewPagerAdapter extends FragmentStateAdapter {
@@ -23,12 +24,18 @@ public class mainVewPagerAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         switch (position){
             case 2:
-                return new add();
+                return new UploadsFragment();
             case 1:
                 return new VideosFragment();
             case 0:

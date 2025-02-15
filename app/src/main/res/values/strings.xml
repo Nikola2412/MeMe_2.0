@@ -4,4 +4,7 @@
     <string name="ip" translatable="false">http://192.168.1.5:3001/</string>
     <string name="slika" translatable="false">https://goo.gl/gEgYUd</string>
     <string name="nesto">what can i say</string>
+    <string name="upload">Upload</string>
+    <string name="home">Home</string>
+    <string name="memes">Memes</string>
 </resources>
